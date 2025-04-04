@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Weather Forecast</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-image: url("background.jpeg"); 
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .outer-bg {
+      
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: contain;
+      height: 590px;
+      width: 100%;
+      position: relative;
+    }
+
+    .bg-img {
+      position: fixed;
+      left: 0;
+      width: 100%;
+      height: 590px;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+      filter: blur(5px);
+      z-index: -1;
+    }
+
+    .centered-box {
+      text-align: center;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      height: 400px;
+      width: 250px;
+      transform: translate(-50%, -50%);
+      padding: 20px;
+      border-radius: 20px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 0 20px rgba(75, 31, 31, 0.4);
+    }
+
+    .logo {
+      width: 200px;
+    }
+
+    .content {
+      text-align: center;
+      height: 50px;
+      color: rgb(123, 94, 227);
+      text-shadow: 0 0 10px rgb(255, 255, 255), 0 0 20px #ffffff, 0 0 30px #ffffff;
+    }
+
+    .btn {
+      background-image: url("berenice_.gif"); 
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+      width: 120px;
+      padding: 10px;
+      margin: 50px;
+      margin-bottom: 30px;
+      border: 0;
+      border-radius: 20px;
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.9);
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .para {
+      font-size: 15px;
+      color: rgb(255, 255, 255);
+      margin: 0;
+      text-shadow: 0 0 10px rgb(0, 0, 0), 0 0 20px #000000, 0 0 30px #000000;
+    }
+
+    #weather-body {
+      display: none;
+      color: white;
+      margin-top: 20px;
+      padding: 20px;
+      background: rgba(0, 0, 0, 0.5);
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+    }
+
+    .location-deatils, .weather-status, .day-details {
+      margin-bottom: 15px;
+    }
+
+    .city {
+      font-size: 22px;
+      font-weight: bold;
+    }
+
+    .temp {
+      font-size: 40px;
+      font-weight: bold;
+    }
+
+    .weather {
+      font-size: 20px;
+    }
+
+    .min-max {
+      font-size: 16px;
+    }
+
+    .basic {
+      font-size: 16px;
+    }
+  </style>
+</head>
+<body>
+  <div class="outer-bg">
+    <div class="over-lay">
+      <div class="bg-img"></div>
+
+      <div class="centered-box">
+        <div class="inner-bg">
+          <img src="Sleeping-all-Day-unscreen.gif" class="logo"> 
+        </div>
+
+        <div class="content">
+          <h2>Weather<br>Forecasts</h2>
+        </div>
+
+        <input type="text" id="input-box" placeholder="Enter city">
+        <button id="btn" class="btn">Get Started</button>
+
+        <p class="para">Check any weather</p>
+      </div>
+    </div>
+  </div>
+
+  <div id="weather-body"></div>
+  <div id="parent"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script>
+    const weatherApi = {
+      key: '5174a4c980abc22f0dc589db984742cf',
+      baseUrl: 'https://api.openweathermap.org/data/2.5/weather'
+    };
+
+    let searchInputBox = document.getElementById('input-box');
+    searchInputBox.addEventListener('keypress', (event) => {
+      if (event.keyCode == 13) {
+        getWeatherReport(searchInputBox.value);
+      }
+    });
+
+    let buttonPress = document.getElementById('btn');
+    buttonPress.addEventListener('click', () => {
+      getWeatherReport(searchInputBox.value);
+    });
+
+    function getWeatherReport(city) {
+      fetch(`${weatherApi.baseUrl}?q=${city}&appid=${weatherApi.key}&units=metric`)
+        .then(weather => weather.json())
+        .then(showWeatherReport)
+        .catch(error => {
+          swal("Error", "Unable to fetch data. Please try again later.", "error");
+          console.log(error);
+        });
+    }
+
+    function showWeatherReport(weather) {
+      let city_code = weather.cod;
+      if (city_code === '404') {
+        swal("City Not Found", "Please enter a valid city.", "warning");
+        reset();
+      } else if (city_code === '400') {
+        swal("Empty Input", "Please enter a city name.", "error");
+        reset();
+      } else {
+        let weatherBody = document.getElementById('weather-body');
+        weatherBody.style.display = 'block';
+
+        let todayDate = new Date();
+        let weatherContent = `
+          <div class="location-deatils">
+            <div class="city">${weather.name}, ${weather.sys.country}</div>
+            <div class="date">${dateManage(todayDate)}</div>
+          </div>
+          <div class="weather-status">
+            <div class="temp">${Math.round(weather.main.temp)}&deg;C</div>
+            <div class="weather">${weather.weather[0].main} <i class="${getIconClass(weather.weather[0].main)}"></i></div>
+            <div class="min-max">${Math.floor(weather.main.temp_min)}&deg;C (min) / ${Math.ceil(weather.main.temp_max)}&deg;C (max)</div>
+            <div id="updated_on">Updated as of ${getTime(todayDate)}</div>
+          </div>
+          <hr>
+          <div class="day-details">
+            <div class="basic">Feels like ${weather.main.feels_like}&deg;C | Humidity ${weather.main.humidity}% <br> Pressure ${weather.main.pressure} mb | Wind ${weather.wind.speed} KMPH</div>
+          </div>
+        `;
+        weatherBody.innerHTML = weatherContent;
+        changeBg(weather.weather[0].main);
+        reset();
+      }
+    }
+
+    function getTime(todayDate) {
+      let hour = addZero(todayDate.getHours());
+      let minute = addZero(todayDate.getMinutes());
+      return `${hour}:${minute}`;
+    }
+
+    function dateManage(dateArg) {
+      let days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+      let months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+      let year = dateArg.getFullYear();
+      let month = months[dateArg.getMonth()];
+      let date = dateArg.getDate();
+      let day = days[dateArg.getDay()];
+      return `${date} ${month} (${day}) , ${year}`;
+    }
+
+    function changeBg(status) {
+      const bgMap = {
+        'Clouds': 'clouds.jpeg',
+        'Rain': 'rain.jpeg',
+        'Clear': 'clear.jpeg',
+        'Snow': 'snow.jpeg',
+        'Sunny': 'sunny.jpeg',
+        'Thunderstorm': 'thunder.jpeg',
+        'Drizzle': 'drizzle.jpeg',
+        'Mist': 'mist.jpeg',
+        'Haze': 'mist.jpeg',
+        'Fog': 'mist.jpeg'
+      };
+      document.body.style.backgroundImage = `url(${bgMap[status] || 'background.jpeg'})`;
+    }
+
+    function getIconClass(weatherClass) {
+      const iconMap = {
+        'Rain': 'fas fa-cloud-showers-heavy',
+        'Clouds': 'fas fa-cloud',
+        'Clear': 'fas fa-cloud-sun',
+        'Snow': 'fas fa-snowman',
+        'Sunny': 'fas fa-sun',
+        'Mist': 'fas fa-smog',
+        'Thunderstorm': 'fas fa-thunderstorm',
+        'Drizzle': 'fas fa-thunderstorm'
+      };
+      return iconMap[weatherClass] || 'fas fa-cloud-sun';
+    }
+
+    function reset() {
+      let input = document.getElementById('input-box');
+      input.value = "";
+    }
+
+    function addZero(i) {
+      if (i < 10) {
+        i = "0" + i;
+      }
+      return i;
+    }
+  </script>
+</body>
+</html>

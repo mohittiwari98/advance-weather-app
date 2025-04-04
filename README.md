@@ -31,7 +31,7 @@ To run the project locally:
 Clone the repository:
 
 
-git clone https://github.com/your-mohittiwari98/advanced-weather-app.git
+git clone https://github.com/mohittiwari98/advanced-weather-app.git
 Navigate to the project directory:
 
 cd advanced-weather-app

@@ -1,6 +1,11 @@
 # advance-weather-app
+<div align="center">
+  <img src="Screenshot_2025-06-14-16-41-22-33_254de13a4bc8758c9908fff1f73e3725.jpg" alt="DevOpsShack Banner">
+</div>
 An advanced weather web application built with HTML, CSS, and JavaScript that provides detailed and accurate weather information. The app allows users to check the current weather, forecast, and other data for any city worldwide. It integrates multiple data sources to deliver up-to-date weather conditions, including temperature, humidity, wind speed, air quality, and more.
-
+<div align="center">
+  <img src="Screenshot_2025-06-14-16-41-38-99_254de13a4bc8758c9908fff1f73e3725.jpg" alt="DevOpsShack Banner">
+</div>
 Features
 Real-time Weather Updates: Displays the current weather conditions, temperature, and humidity.
 Forecasting: Shows a 5-day weather forecast with details like temperature, conditions (e.g., sunny, cloudy, rainy), and wind speed.

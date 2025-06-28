@@ -27,7 +27,7 @@ function getWeatherReport(city) {
         }).then(showWeaterReport);  
 
 }
-//function to
+//function to show
 function showWeaterReport(weather) {
     let city_code=weather.cod;
     if(city_code==='400'){ 

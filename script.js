@@ -1,4 +1,4 @@
-//script
+//script file
 const weatherApi = {
     key: 'Your Api',
     //use your own api

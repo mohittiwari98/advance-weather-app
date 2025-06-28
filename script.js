@@ -2,7 +2,7 @@
 const weatherApi = {
     key: 'Your Api',
     //use your own api
-    //get api from openweather
+    //get api from openweathermap.
     baseUrl: 'https://api.openweathermap.org/data/2.5/weather'
 }
 

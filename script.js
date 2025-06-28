@@ -19,7 +19,7 @@ buttonPress.addEventListener('click',()=>{
     getWeatherReport(searchInputBox.value);
 });
 
-//function to
+//function to fetch
 function getWeatherReport(city) {
     fetch(`${weatherApi.baseUrl}?q=${city}&appid=${weatherApi.key}&units=metric`)  
         .then(weather => {   

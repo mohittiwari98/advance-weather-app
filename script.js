@@ -13,7 +13,7 @@ searchInputBox.addEventListener('keypress', (event) => {
         
     }
 });
-//code
+//code for
 let buttonPress = document.getElementById('btn');
 buttonPress.addEventListener('click',()=>{
     getWeatherReport(searchInputBox.value);

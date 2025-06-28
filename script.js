@@ -5,7 +5,7 @@ const weatherApi = {
     //get api from openweathermap.org
     baseUrl: 'https://api.openweathermap.org/data/2.5/weather'
 }
-
+//for
 let searchInputBox = document.getElementById('input-box');
 searchInputBox.addEventListener('keypress', (event) => {
     if (event.keyCode == 13) {

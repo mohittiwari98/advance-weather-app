@@ -1,3 +1,4 @@
+//
 const weatherApi = {
     key: 'Your Api',
     //use your own api

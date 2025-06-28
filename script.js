@@ -69,7 +69,7 @@ function showWeaterReport(weather) {
 
 
 
-//function to
+//function to get
 function getTime(todayDate) {
     let hour =addZero(todayDate.getHours());
     let minute =addZero(todayDate.getMinutes());
